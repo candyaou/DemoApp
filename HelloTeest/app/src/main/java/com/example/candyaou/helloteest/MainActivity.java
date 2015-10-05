@@ -115,7 +115,6 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camara) {
 
-
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -123,6 +122,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
+            Intent routeMapIntent = new Intent(this,Routemap.class);
+            startActivity(routeMapIntent);
+
+
 
         } else if (id == R.id.nav_send) {
 

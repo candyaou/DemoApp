@@ -10,7 +10,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/apache-httpcomponents-httpcore" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/httpclient-4.0-alpha4" />
           </set>
         </option>
       </GradleProjectSettings>
