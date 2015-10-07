@@ -27,6 +27,8 @@ import android.util.Log;
 public class GMapV2Direction {
     public final static String MODE_DRIVING = "driving";
     public final static String MODE_WALKING = "walking";
+    public final static String MODE_BICYCLING = "bicycling";
+    public final static String MODE_TRANSIT = "transit";
 
     public GMapV2Direction() { }
 
@@ -34,7 +36,7 @@ public class GMapV2Direction {
         String url = "http://maps.googleapis.com/maps/api/directions/xml?"
                 + "origin=" + start.latitude + "," + start.longitude
                 + "&destination=" + end.latitude + "," + end.longitude
-                + "&sensor=false&units=metric&mode=driving";
+                + "&sensor=false&units=metric&mode="+mode;
 
         Log.d("GoogleMapsDirection", url);
         try {
