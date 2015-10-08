@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ShareMe</string>
+    <string name="login_title">ShareMe</string>
+    <string name="username_title">Username</string>
+    <string name="password_title">Password</string>
+    <string name="conPassword_title">Confirm Password</string>
+    <string name="button_login">Login</string>
+    <string name="button_register">Register</string>
+    <string name="register">New User? Register here</string>
+    <string name="login_error_message">Username or Password is incorrect.</string>
+    <string name="password_confirm_title">Confirm Password</string>
+    <string name="register_error_message">Register failed, Try again!</string>
+    <string name="register_password_error">Password does not match</string>
+    <string name="register_success">Register Successful</string>
+
+    <string name="welcome_message">Welcome to ShareMe</string>
+</resources>
