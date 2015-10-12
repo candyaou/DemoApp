@@ -13,15 +13,24 @@
         android:src="@mipmap/ic_launcher"
         android:id="@+id/logo"
         android:layout_gravity="center"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/welcome_message"
-        android:textColor="#ff3eaff9"
-        android:id="@+id/welcome"
-        android:textSize="32sp"
-        android:layout_gravity="center"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/welcome_message"
+            android:textColor="#ff3eaff9"
+            android:id="@+id/welcome"
+            android:textSize="32sp"
+            android:layout_gravity="center"/>
+
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="100dp"
+            android:layout_marginRight="100dp" />
 
         <Button
             android:layout_width="wrap_content"
