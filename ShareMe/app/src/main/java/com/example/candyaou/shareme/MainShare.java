@@ -23,6 +23,12 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.net.URISyntaxException;
+
 /**
  * Created by CandyAou on 10/2/15.
  */
@@ -72,7 +78,11 @@ public class MainShare extends FragmentActivity implements GoogleMap.OnMyLocatio
         }
         tvLocation.setText("Latitude : " + lati + ",Longitude : " + longi);
 
-
+        try {
+            updatePlace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -112,4 +122,10 @@ public class MainShare extends FragmentActivity implements GoogleMap.OnMyLocatio
 
 
     }
+
+    public void updatePlace() throws URISyntaxException {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost("http://10.5.7.97/test/set_posi.php");
+    }
+
 }

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
@@ -24,6 +25,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -75,7 +78,7 @@ public class LoginActivity extends ActionBarActivity {
     public void postData() throws URISyntaxException, HttpException {
         // Create a new HttpClient and Post Header
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://192.168.2.12/test/validate_login.php");
+        HttpPost httppost = new HttpPost("http://10.5.7.97/test/validate_login.php");
 
         try {
             // Add your data
@@ -92,8 +95,12 @@ public class LoginActivity extends ActionBarActivity {
             //Toast.makeText(getApplicationContext(), responseBody, Toast.LENGTH_LONG).show();
 
 
+            JSONObject reader = new JSONObject(responseBody);
+            Boolean status = reader.getBoolean("status");
 
-            if (responseBody.equals("You are a validated user.")) {
+
+
+            if (status) {
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -102,12 +109,14 @@ public class LoginActivity extends ActionBarActivity {
 //                String message = getString(R.string.login_error_message);
 //                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 //                Toast.makeText(getApplicationContext(), responseBody, Toast.LENGTH_LONG).show();
-                ShowMes(responseBody);
+                ShowMes("Please try again");
             }
 
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

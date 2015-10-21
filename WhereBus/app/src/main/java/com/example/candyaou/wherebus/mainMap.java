@@ -3,10 +3,6 @@ package com.example.candyaou.wherebus;
 /**
  * Created by CandyAou on 10/12/15.
  */
-
-/**
- * Created by CandyAou on 10/5/15.
- */
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -17,6 +13,12 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.*;
+import android.app.Activity;
+import android.os.Bundle;
+
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -34,7 +36,7 @@ import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 
-public class mainMap extends FragmentActivity implements GoogleMap.OnMyLocationChangeListener {
+public class mainMap extends FragmentActivity implements GoogleMap.OnMyLocationChangeListener{
     GoogleMap mMap;
     GMapV2Direction md;
     boolean setCurrent;
@@ -45,8 +47,6 @@ public class mainMap extends FragmentActivity implements GoogleMap.OnMyLocationC
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainmap);
-
-
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
         if (status != ConnectionResult.SUCCESS) {
             int request = 10;
@@ -82,36 +82,19 @@ public class mainMap extends FragmentActivity implements GoogleMap.OnMyLocationC
         double longi = location.getLongitude();
         fromPosition = new LatLng(lati, longi);
         mMap.clear();
-
-        //Pin MapMarker and show LatLng of current Location.
-//        mMap.addMarker(new MarkerOptions().position(fromPosition).title("Start"));
-//        mMap.addMarker(new MarkerOptions().position(toPosition).title("End"));
         startMark = new MarkerOptions().position(fromPosition).title("Start");
         endMark = new MarkerOptions().position(toPosition).title("End");
-        endMark.icon(BitmapDescriptorFactory.fromResource(R.drawable.raz));
+
+        endMark.icon(BitmapDescriptorFactory.fromResource(R.drawable.raz)).flat(true).rotation(245);
 
         mMap.addMarker(startMark);
         mMap.addMarker(endMark);
-
-
-
         tvLocation.setText("Latitude : " + lati + ",Longitude : " + longi);
-
-
-//        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Hello Maps");
-//        // Changing marker icon
-//        // set yours icon here
-//        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.my_marker_icon)));
-//        // adding marker
-//        googleMap.addMarker(marker);
-
-
-
-
         //set bound between 2 place
         if(setCurrent == false) {
             LatLngBounds bounds = new LatLngBounds.Builder().include(fromPosition).include(toPosition).build();
-            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds,90));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 90));
+
             setCurrent = true;
 
         }
@@ -172,4 +155,14 @@ public class mainMap extends FragmentActivity implements GoogleMap.OnMyLocationC
 
 
     }
+
+
+
 }
+
+
+
+
+
+
+
