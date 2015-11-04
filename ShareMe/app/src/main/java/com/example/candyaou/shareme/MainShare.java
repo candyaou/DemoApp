@@ -5,16 +5,22 @@ package com.example.candyaou.shareme;
  */
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import android.view.Gravity;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.appdatasearch.GetRecentContextCall;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,6 +32,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 
@@ -37,12 +45,17 @@ public class MainShare extends FragmentActivity implements GoogleMap.OnMyLocatio
     GoogleMap googleMap;
     boolean setCurrent;
 
+    String username,password;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainshare);
+        SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
+        username = sp.getString("username","NoUser");
+        password = sp.getString("password", "NoPass");
+
 
 
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
@@ -51,6 +64,8 @@ public class MainShare extends FragmentActivity implements GoogleMap.OnMyLocatio
             Dialog dialog = GooglePlayServicesUtil.getErrorDialog(status, this, request);
             dialog.show();
         }else{
+
+
             SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
             googleMap = mapFragment.getMap();
             googleMap.setMyLocationEnabled(true);
@@ -58,8 +73,28 @@ public class MainShare extends FragmentActivity implements GoogleMap.OnMyLocatio
             googleMap.setOnMyLocationChangeListener(this);
             googleMap.setMapType(googleMap.MAP_TYPE_NORMAL);
 
+
+
+
         }
      }
+
+
+    //test sp
+    public void ShowMes(String text){
+        //Create Alert Message
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle("Test Check");
+        builder.setMessage(text);
+        builder.setPositiveButton("OK", null);
+        android.support.v7.app.AlertDialog dialog = builder.show();
+        TextView messageText = (TextView)dialog.findViewById(android.R.id.message);
+        messageText.setGravity(Gravity.CENTER);
+        dialog.show();
+
+
+
+    }
 
 
 
@@ -79,11 +114,23 @@ public class MainShare extends FragmentActivity implements GoogleMap.OnMyLocatio
         tvLocation.setText("Latitude : " + lati + ",Longitude : " + longi);
 
         try {
-            updatePlace();
+            updatePlace(lati,longi);
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+
     }
+
+    public void updatePlace(double lati,double longi) throws URISyntaxException {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost("http://10.5.7.97/test/set_posi.php");
+
+
+        //"http://localhost/test/update.php?username="+username+"&lati="+lati+" &longi="+longi
+
+
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -121,11 +168,6 @@ public class MainShare extends FragmentActivity implements GoogleMap.OnMyLocatio
 
 
 
-    }
-
-    public void updatePlace() throws URISyntaxException {
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://10.5.7.97/test/set_posi.php");
     }
 
 }

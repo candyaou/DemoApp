@@ -3,8 +3,10 @@ package com.example.candyaou.shareme;
 /**
  * Created by CandyAou on 10/7/15.
  */
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBarActivity;
@@ -34,10 +36,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class LoginActivity extends ActionBarActivity {
 
     private Button mLogin;
     private EditText mUsername,mPassword;
+    private String username,password;
+
+
+
 
 
 
@@ -52,15 +59,27 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login);
 
 
+
+
+
+
+
+
         mLogin = (Button) findViewById(R.id.button_login);
         mUsername = (EditText) findViewById(R.id.username);
         mPassword = (EditText) findViewById(R.id.password);
+
+
+
+
 
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 try {
+                    username = mUsername.getText().toString();
+                    password = mPassword.getText().toString();
                     postData();
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
@@ -78,13 +97,13 @@ public class LoginActivity extends ActionBarActivity {
     public void postData() throws URISyntaxException, HttpException {
         // Create a new HttpClient and Post Header
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://10.5.7.97/test/validate_login.php");
+        HttpPost httppost = new HttpPost("http://172.20.10.4/test/validate_login.php");
 
         try {
             // Add your data
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-            nameValuePairs.add(new BasicNameValuePair("users_name",mUsername.getText().toString()));
-            nameValuePairs.add(new BasicNameValuePair("users_pass",mPassword.getText().toString()));
+            nameValuePairs.add(new BasicNameValuePair("users_name",username));
+            nameValuePairs.add(new BasicNameValuePair("users_pass",password));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 
@@ -93,6 +112,12 @@ public class LoginActivity extends ActionBarActivity {
             HttpResponse response = httpclient.execute(httppost);
             String responseBody = EntityUtils.toString(response.getEntity());
             //Toast.makeText(getApplicationContext(), responseBody, Toast.LENGTH_LONG).show();
+
+            SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("username",username);
+            editor.putString("password",password);
+            editor.commit();
 
 
             JSONObject reader = new JSONObject(responseBody);
