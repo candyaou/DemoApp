@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
@@ -44,10 +43,6 @@ public class LoginActivity extends ActionBarActivity {
     private String username,password;
 
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -60,19 +55,9 @@ public class LoginActivity extends ActionBarActivity {
 
 
 
-
-
-
-
-
         mLogin = (Button) findViewById(R.id.button_login);
         mUsername = (EditText) findViewById(R.id.username);
         mPassword = (EditText) findViewById(R.id.password);
-
-
-
-
-
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,8 +96,8 @@ public class LoginActivity extends ActionBarActivity {
             // Execute HTTP Post Request
             HttpResponse response = httpclient.execute(httppost);
             String responseBody = EntityUtils.toString(response.getEntity());
-            //Toast.makeText(getApplicationContext(), responseBody, Toast.LENGTH_LONG).show();
 
+            //SharedPreferences to keep username and password
             SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sp.edit();
             editor.putString("username",username);
@@ -131,9 +116,6 @@ public class LoginActivity extends ActionBarActivity {
                 finish();
             }
             else {
-//                String message = getString(R.string.login_error_message);
-//                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-//                Toast.makeText(getApplicationContext(), responseBody, Toast.LENGTH_LONG).show();
                 ShowMes("Please try again");
             }
 
@@ -170,13 +152,6 @@ public class LoginActivity extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //if user pressed "yes", then he is allowed to exit from application
-//                System.exit(0);
-//                finish();
-//                Intent intent = new Intent(Intent.ACTION_MAIN);
-//                intent.addCategory(Intent.CATEGORY_HOME);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//***Change Here***
-//                startActivity(intent);
-//                finish();
                 System.exit(0);
 
             }

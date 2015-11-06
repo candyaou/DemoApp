@@ -28,6 +28,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads:8.1.0'
     compile 'com.google.android.gms:play-services-identity:8.1.0'
     compile 'com.google.android.gms:play-services-gcm:8.1.0'
+    compile 'com.mcxiaoke.volley:library-aar:1.0.0'
     compile project(':apache-httpcomponents-httpcore')
     compile project(':httpclient-4.0-alpha4')
 }
