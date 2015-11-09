@@ -82,7 +82,7 @@ public class LoginActivity extends ActionBarActivity {
     public void postData() throws URISyntaxException, HttpException {
         // Create a new HttpClient and Post Header
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://172.20.10.4/test/validate_login.php");
+        HttpPost httppost = new HttpPost("http://192.168.1.12/test/validate_login.php");
 
         try {
             // Add your data

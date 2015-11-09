@@ -136,7 +136,7 @@ public class MainShare extends FragmentActivity implements GoogleMap.OnMyLocatio
         String a = Double.toString(lon);
 
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://172.20.10.4/test/update.php");
+        HttpPost httppost = new HttpPost("http://192.168.1.12/test/update.php");
 
         try {
             // Add your data
@@ -168,6 +168,29 @@ public class MainShare extends FragmentActivity implements GoogleMap.OnMyLocatio
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //if user pressed "yes", then he is allowed to exit from application
+
+
+                try {
+                    // Add your data
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httppost = new HttpPost("http://192.168.1.12/test/logout.php");
+                    List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+                    nameValuePairs.add(new BasicNameValuePair("username", username));
+                    httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+
+                    // Execute HTTP Post Request
+                    HttpResponse response = httpclient.execute(httppost);
+                    String responseBody = EntityUtils.toString(response.getEntity());
+
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                } catch (HttpException e) {
+                    e.printStackTrace();
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
+
                 finish();
                 Intent intent = new Intent(MainShare.this, LoginActivity.class);
                 startActivity(intent);
