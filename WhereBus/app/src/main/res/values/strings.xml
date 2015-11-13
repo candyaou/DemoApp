@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">WhereBus</string>
     <string name="welcome_message">Welcome to WhereBus</string>
+    <string name="login_title">WhereBus</string>
+    <string name="username_title">Username</string>
+    <string name="password_title">Password</string>
+    <string name="con_password_title">Confirm Password</string>
+    <string name="button_login">Login</string>
+    <string name="button_regis">Register</string>
+    <string name="button_signup">Sign Up</string>
 </resources>

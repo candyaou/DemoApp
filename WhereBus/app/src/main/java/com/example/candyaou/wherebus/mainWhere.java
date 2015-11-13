@@ -8,6 +8,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import org.apache.http.HttpException;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +30,7 @@ import java.util.List;
 public class mainWhere extends ActionBarActivity {
     private Button bStart;
     private  Spinner spinner;
+    private String text;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +41,30 @@ public class mainWhere extends ActionBarActivity {
         bStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                text = spinner.getSelectedItem().toString();
+
                 finish();
                 Intent intent = new Intent(mainWhere.this, mainMap.class);
                 startActivity(intent);
             }
         });
+
+    }
+
+    public void getLocation()throws URISyntaxException, HttpException {
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost("http://172.20.10.4/test/getLoca.php");
+        try{
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+            nameValuePairs.add(new BasicNameValuePair("busID",text));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            HttpResponse response = httpclient.execute(httppost);
+            String responseBody = EntityUtils.toString(response.getEntity());
+
+        }catch  (IOException e) {
+
+        }
 
     }
 
@@ -47,5 +80,7 @@ public class mainWhere extends ActionBarActivity {
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
     }
+
+
 
 }
