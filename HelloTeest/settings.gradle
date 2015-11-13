@@ -1,2 +1,0 @@
-include ':app', ':apache-httpcomponents-httpcore', ':httpclient-4.0-alpha4'
-
