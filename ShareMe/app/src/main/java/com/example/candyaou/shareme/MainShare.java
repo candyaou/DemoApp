@@ -54,7 +54,7 @@ public class MainShare extends FragmentActivity implements GoogleMap.OnMyLocatio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mainshare);
-        SharedPreferences sp = getSharedPreferences("PREF_NAME", Context.MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences("shareme", Context.MODE_PRIVATE);
         username = sp.getString("username","NoUser");
         password = sp.getString("password", "NoPass");
 
@@ -136,7 +136,7 @@ public class MainShare extends FragmentActivity implements GoogleMap.OnMyLocatio
         String a = Double.toString(lon);
 
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://192.168.1.12/test/update.php");
+        HttpPost httppost = new HttpPost("http://172.20.10.4/master/update.php");
 
         try {
             // Add your data
@@ -173,7 +173,7 @@ public class MainShare extends FragmentActivity implements GoogleMap.OnMyLocatio
                 try {
                     // Add your data
                     HttpClient httpclient = new DefaultHttpClient();
-                    HttpPost httppost = new HttpPost("http://192.168.1.12/test/logout.php");
+                    HttpPost httppost = new HttpPost("http://172.20.10.4/master/logout.php");
                     List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
                     nameValuePairs.add(new BasicNameValuePair("username", username));
                     httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
