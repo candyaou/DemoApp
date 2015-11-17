@@ -1,6 +1,8 @@
 package com.example.candyaou.wherebus;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -44,6 +46,11 @@ public class mainWhere extends ActionBarActivity {
 
                 text = spinner.getSelectedItem().toString();
 
+                SharedPreferences sp = getSharedPreferences("wherebus", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("ChooseBus",text);
+                editor.commit();
+
                 finish();
                 Intent intent = new Intent(mainWhere.this, mainMap.class);
                 startActivity(intent);
@@ -52,21 +59,21 @@ public class mainWhere extends ActionBarActivity {
 
     }
 
-    public void getLocation()throws URISyntaxException, HttpException {
-        HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://172.20.10.4/test/getLoca.php");
-        try{
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-            nameValuePairs.add(new BasicNameValuePair("busID",text));
-            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-            HttpResponse response = httpclient.execute(httppost);
-            String responseBody = EntityUtils.toString(response.getEntity());
-
-        }catch  (IOException e) {
-
-        }
-
-    }
+//    public void getLocation()throws URISyntaxException, HttpException {
+//        HttpClient httpclient = new DefaultHttpClient();
+//        HttpPost httppost = new HttpPost("http://172.20.10.4/test/getLoca.php");
+//        try{
+//            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+//            nameValuePairs.add(new BasicNameValuePair("busID",text));
+//            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+//            HttpResponse response = httpclient.execute(httppost);
+//            String responseBody = EntityUtils.toString(response.getEntity());
+//
+//        }catch  (IOException e) {
+//
+//        }
+//
+//    }
 
     public void addItemsOnSpinner() {
         //get Bus from database then loop bus that active

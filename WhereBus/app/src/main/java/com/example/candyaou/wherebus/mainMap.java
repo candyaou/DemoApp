@@ -43,6 +43,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 
 import java.io.IOException;
@@ -55,9 +57,9 @@ public class mainMap extends FragmentActivity implements GoogleMap.OnMyLocationC
     GMapV2Direction md;
     boolean setCurrent;
     LatLng fromPosition ;
-    LatLng toPosition = new LatLng(13.70988, 100.50283);
+    LatLng toPosition ;//= new LatLng(13.70988, 100.50283);
     MarkerOptions startMark,endMark;
-    String username,password;
+    String username,password,bus;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +68,8 @@ public class mainMap extends FragmentActivity implements GoogleMap.OnMyLocationC
         SharedPreferences sp = getSharedPreferences("wherebus", Context.MODE_PRIVATE);
         username = sp.getString("username","NoUser");
         password = sp.getString("password", "NoPass");
+        bus = sp.getString("ChooseBus","NoBus");
+
 
 
         int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getBaseContext());
@@ -93,6 +97,15 @@ public class mainMap extends FragmentActivity implements GoogleMap.OnMyLocationC
 
     @Override
     public void onMyLocationChange(Location location) {
+
+        try {
+            getLocation();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (HttpException e) {
+            e.printStackTrace();
+        }
+
         TextView tvLocation = (TextView) findViewById(R.id.latilongi);
         TextView EsDistance = (TextView) findViewById(R.id.distance);
         TextView EsTime = (TextView) findViewById(R.id.time);
@@ -175,7 +188,35 @@ public class mainMap extends FragmentActivity implements GoogleMap.OnMyLocationC
         }
     }
 
+    public void getLocation()throws URISyntaxException,HttpException{
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpPost httppost = new HttpPost("http://172.20.10.4/user/getLoca.php");
+        try {
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+            nameValuePairs.add(new BasicNameValuePair("username", username));
+            nameValuePairs.add(new BasicNameValuePair("busID", bus));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
+            // Execute HTTP Post Request
+            HttpResponse response = httpclient.execute(httppost);
+            String responseBody = EntityUtils.toString(response.getEntity());
+
+            JSONObject reader = new JSONObject(responseBody);
+            String lat = reader.getString("lati");
+            String lng = reader.getString("longi");
+
+            double  buslat = Double.parseDouble(lat);
+            double  buslng = Double.parseDouble(lng);
+
+            toPosition =  new LatLng(buslat,buslng);
+
+        }catch (IOException e) {
+            // TODO Auto-generated catch block
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     @Override
     public void onBackPressed() {
